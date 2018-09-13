@@ -22,6 +22,10 @@ class Board:
 			map.append(['.','.','.','.','.','.','.','.'])
 		return map
 
+	def print_piece(self):
+		for li in self.list:
+			li.print_location()
+
 	def add_piece(self, piece):
 		self.list.append(piece)
 
