@@ -15,6 +15,16 @@ class Board:
 				print(column, end=' ')
 			print()
 
+	def print_info(self):
+		for piece in self.list:
+			attack = piece.count_piece_atacked(self)
+			if piece.team == 'WHITE':
+				team = 'WHITE'
+				enemies = 'BLACK'
+			else:
+				team = 'BLACK'
+				enemies = 'WHITE'
+			print(piece.serialize + " " + piece.team + " can attack " + str(attack[enemies]) + " enemies. and " + str(attack[team]) + " teamates")
 
 	def init_map(self):
 		map = []
@@ -33,8 +43,8 @@ class Board:
 		already_taken = True
 		point = {}
 		while already_taken:
-			point['x'] = random.randint(1, 9)
-			point['y'] = random.randint(1, 9)
+			point['x'] = random.randint(1, 8)
+			point['y'] = random.randint(1, 8)
 			already_taken = self.is_taken(point['x'], point['y'])
 		return point
 
