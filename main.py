@@ -1,7 +1,33 @@
 from chess import *
 from board import Board
 
+def menu():
+
+	print(' _____            _    _    _              _____            _    _             ')
+	print('|   | | ___  _ _ | |_ | |_ |_| ___  ___   |  _  | ___  ___ | |_ | | ___  _____ ')
+	print('| | | ||___|| | ||  _||   || ||   || . |  |   __||  _|| . || . || || -_||     |')
+	print('|_|___|     |_  ||_|  |_|_||_||_|_||_  |  |__|   |_|  |___||___||_||___||_|_|_|')
+	print('            |___|                  |___|                                       ')
+	print()
+	print()
+	print('PILIH ALGORITMA LOCAL SEARCH :')
+	print('1. Hill Climbing')
+	print('2. Simulated Annealing')
+	print('3. Genetic Algorithm')
+	print('Your Choice : ', end ='')
+	pil = int(input())
+
+	while (pil < 1) or (pil > 3):
+		print('Invalid input, please try again.')
+		print('Your Choice : ', end='')
+		pil = int(input())
+
+	return pil
+
+
 def main():
+	X = menu()
+	
 	c1 = Board()
 	point = c1.get_random_location()
 	queen_black = Queen(point['x'], point['y'], 'WHITE')
