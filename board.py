@@ -1,4 +1,5 @@
 import random
+import math
 
 class Board:
 	def __init__(self):
@@ -53,3 +54,9 @@ class Board:
 			if li.x == x and li.y == y:
 				return True
 		return False
+
+
+
+
+
+
