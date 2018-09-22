@@ -62,10 +62,45 @@ def intiateBoard() :
 
 	return chess_board
 	
-
 def main():
 	chess = intiateBoard()
+	menu(chess)
+
+def menu(chess):
+	print(' _____            _    _    _              _____            _    _             ')
+	print('|   | | ___  _ _ | |_ | |_ |_| ___  ___   |  _  | ___  ___ | |_ | | ___  _____ ')
+	print('| | | ||___|| | ||  _||   || ||   || . |  |   __||  _|| . || . || || -_||     |')
+	print('|_|___|     |_  ||_|  |_|_||_||_|_||_  |  |__|   |_|  |___||___||_||___||_|_|_|')
+	print('            |___|                  |___|                                       ')
+	print()
+	print()
+	print('PILIH ALGORITMA LOCAL SEARCH :')
+	print('1. Hill Climbing')
+	print('2. Simulated Annealing')
+	print('3. Genetic Algorithm')
+	print('Your Choice : ', end ='')
+	pil = int(input())
+
+	while (pil < 1) or (pil > 3):
+		print('Invalid input, please try again.')
+		print('Your Choice : ', end='')
+		pil = int(input())
+
+	print()
+	print()
+	print()
+	print('Initiate Board :')
 	chess.print_board()
 	chess.print_info()
+
+	if pil == 1:
+		# Hill Climbing
+		print(pil)
+	elif pil == 2:
+		# Simulated Annealing
+		print(pil)
+	else:
+		# Genetic Algorithm
+		print(pil)
 
 main()
