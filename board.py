@@ -1,4 +1,5 @@
 import random
+import math
 
 class Board:
 	def __init__(self):
@@ -53,3 +54,62 @@ class Board:
 			if li.x == x and li.y == y:
 				return True
 		return False
+
+	def summary_attacked(self):
+		teamates = 0
+		opponent = 0
+		for piece in self.list:
+			atk = piece.count_piece_atacked(self)
+			teamates = teamates + atk[piece.team]
+			opponent = opponent + atk[piece.get_opponent()]
+		return {'teamates': teamates, 'opponent': opponent}
+
+
+	def get_attacked_difference(self, piece):
+		teamates = 0
+		opponent = 0
+		atk = piece.count_piece_atacked(self)
+		teamates = teamates + atk[piece.team]
+		opponent = opponent + atk[piece.get_opponent()]
+		selisih = opponent - teamates
+		return selisih
+
+	def get_index_worst_piece(self):
+		indeks = -1
+		diff = 999
+		for i in range(len(self.list)):
+			piece = self.list[i]
+			selisih = self.get_attacked_difference(piece)
+			if selisih < diff:
+				diff = selisih
+				indeks = i
+		return indeks
+
+	def move_one_piece(self, selisih_board, temperature):
+		indeks = self.get_index_worst_piece()
+		piece = self.list[indeks]
+		saved_x = piece.x
+		saved_y = piece.y
+		selisih = self.get_attacked_difference(piece)
+		point = self.get_random_location()
+		piece.x = point['x']
+		piece.y = point['y']
+		new_selisih = self.get_attacked_difference(piece)
+		atk = self.summary_attacked()
+		new_selisih_board = atk['opponent'] - atk['teamates']
+		if (new_selisih < selisih or new_selisih_board < selisih_board) and temperature != 0:
+			probability = math.exp(new_selisih / temperature)
+			p = random.random()
+			if p > probability:
+				point = self.get_random_location()
+				piece.x = point['x']
+				piece.y = point['y']
+			else:
+				piece.x = saved_x
+				piece.y = saved_y
+
+
+
+
+
+

@@ -1,5 +1,6 @@
 from chess import *
 from board import Board
+import time
 
 def main():
 	c1 = Board()
@@ -29,9 +30,19 @@ def main():
 	rook_white = Rook(point['x'], point['y'], 'BLACK')
 	c1.add_piece(rook_white)
 
-	c1.print_board()
-	c1.print_piece()
-	c1.print_info()
+	simulatedAnnealing(c1, 1000, 1000, 10)
 
+def simulatedAnnealing(board, temperature, max_iterate, descent):
+	for i in range(max_iterate):
+		attack_info = board.summary_attacked()
+		selisih = attack_info['opponent'] - attack_info['teamates']
+		board.move_one_piece(selisih, temperature)
+		if i == 0 or i == max_iterate - 1:
+			print(attack_info)
+		if temperature > 0:
+			temperature = temperature - descent
 
+start = time.time()
 main()
+finish = time.time() - start
+print('Compile Time : ' + finish)
