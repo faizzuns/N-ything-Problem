@@ -59,5 +59,12 @@ def main():
 	c1.print_piece()
 	c1.print_info()
 
+	if (x == 1):
+		# MASUKIN FUNGSI HILL CLIMBING
+	else if (x == 2):
+		# MASUKIN FUNGSI SIMULATED ANNEALING
+	else
+		# MASUKIN FUNGSI GENETIC ALGORITHM
+
 
 main()
