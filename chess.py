@@ -73,6 +73,12 @@ class Chess:
 						count[piece.team] = count[piece.team] + 1
 		return count
 
+	def get_opponent(self):
+		if self.team == 'WHITE':
+			return 'BLACK'
+		else:
+			return 'WHITE'
+
 class Queen(Chess):
 	def __init__(self, x, y, team):
 		super().__init__(x, y, team)

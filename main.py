@@ -1,6 +1,7 @@
 from os.path import exists
 from chess import *
 from board import Board
+import time
 
 def readFile(filename) :
 	if exists(filename) :
@@ -13,8 +14,6 @@ def readFile(filename) :
 		bidak = []
 		for x in chess :
 			bidak.append(x.split(' '))
-
-		print (bidak)
 		return bidak
 	else :
 		print ("File not exist.")
@@ -24,7 +23,6 @@ def intiateBoard() :
 	list_bidak = readFile("catur.txt")
 	chess_board = Board()
 	for x in list_bidak :
-		point = chess_board.get_random_location()
 		if (x[1] == 'KNIGHT') :
 			for i in range(int(x[2])) :
 				point = chess_board.get_random_location()
@@ -63,9 +61,11 @@ def intiateBoard() :
 					chess_board.add_piece(black_rook)
 
 	return chess_board
+	
 
-chess = intiateBoard()
-chess.print_board()
-chess.print_piece()
-chess.print_info()
-# main()
+def main():
+	chess = intiateBoard()
+	chess.print_board()
+	chess.print_info()
+
+main()
