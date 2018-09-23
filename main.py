@@ -33,5 +33,13 @@ def main():
 	c1.print_piece()
 	c1.print_info()
 
+def hill_climbing(maxIterate,board):
+	for i in range(maxIterate):
+		for piece in board:
+			s
+
+	print("Finish calculating hill climbing")
+
+
 
 main()
