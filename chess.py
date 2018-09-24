@@ -79,6 +79,15 @@ class Chess:
 		else:
 			return 'WHITE'
 
+	def get_attacked_difference(self):
+		teamates = 0
+		opponent = 0
+		atk = self.count_piece_atacked()
+		teamates = teamates + atk[piece.team]
+		opponent = opponent + atk[piece.get_opponent()]
+		selisih = opponent - teamates
+		return selisih
+
 class Queen(Chess):
 	def __init__(self, x, y, team):
 		super().__init__(x, y, team)
