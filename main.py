@@ -1,6 +1,7 @@
 from os.path import exists
 from chess import *
 from board import Board
+from SimulatedAnnealing import *
 import time
 
 def readFile(filename) :
@@ -90,32 +91,30 @@ def menu(chess):
 	print()
 	print()
 	print('Initiate Board :')
-	chess.print_board()
-	chess.print_info()
 
 	if pil == 1:
-		hill_climbing(chess.total_evaluation(),100,chess)
 		chess.print_board()
-		chess.print_info()
-		print(pil)
+		print(chess.summary_attacked())
+		hill_climbing(chess.total_evaluation(), 100, chess)
+		chess.print_board()
+		print(chess.summary_attacked())
 	elif pil == 2:
-		# Simulated Annealing
-		print(pil)
+		max_iterate = 1000
+		temperature = 10000
+		descent = 35
+		simulate(chess, max_iterate, temperature, descent)
 	else:
 		# Genetic Algorithm
 		print(pil)
 
-def hill_climbing(evals,maxIterate,board):
-	
+def hill_climbing(evals, max_iterate, board):
 	current_eval = evals
-	for i in range(maxIterate):
-		print("iteration :", i)
+	for i in range(max_iterate):
 		listofval = []
 		for piece in board.list:
 			result = piece.get_max_trial_value(board)
 			listofval.append([result['max_x'],result['max_y'],result['max_eval'],piece])
 		optimum = board.get_optimum_movement(listofval)
-		print("current eval :", current_eval)
 		
 		piece = optimum['piece']
 		max_x = optimum['max_x']
@@ -123,25 +122,10 @@ def hill_climbing(evals,maxIterate,board):
 		saved_x = piece.x
 		saved_y	= piece.y
 		piece.move_piece(max_x,max_y)
-		print("board evaluation: ", board.total_evaluation())
-		print ("total :")
-		print ("teammates: ", board.total_attack()['teammates'])
-		print("opponents: ",board.total_attack()['opponents'])
 		if current_eval < board.total_evaluation():
-			print("masuk ke evaluasi")
 			current_eval = board.total_evaluation()
-			
-			print("iteration :", i)
 		else:
-			print("ke break")
 			piece.move_piece(saved_x,saved_y)
 			break
-
-	total = board.total_attack()
-	#print("Finish calculating hill climbing")
-	#print ("hasil :")
-	#print("teammates attacked :", total['teammates'])
-	#print("opponents attacked :", total['opponents'])
-
 
 main()

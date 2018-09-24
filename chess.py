@@ -83,7 +83,6 @@ class Chess:
 		self.x = x
 		self.y = y
 
-
 	def get_max_trial_value(self,board):
 		max_x =0
 		max_y =0
@@ -94,7 +93,7 @@ class Chess:
 			for y in range (1,9):
 	 			if not board.is_taken(x,y):
 	 				self.move_piece(x,y)
-	 				if board.total_evaluation()> max_eval:
+	 				if board.total_evaluation() > max_eval:
 	 					max_x = x
 	 					max_y = y
 	 					max_eval = board.total_evaluation()
@@ -102,8 +101,9 @@ class Chess:
 		if max_x == 0 and max_y == 0:
 			max_x = saved_x
 			max_y = saved_y
-		return {'max_x': max_x, 'max_y': max_y, 'max_eval': max_eval}
-
+		return {'max_x': max_x,
+				'max_y': max_y, 
+				'max_eval': max_eval}
 
 class Queen(Chess):
 	def __init__(self, x, y, team):
@@ -116,15 +116,14 @@ class Queen(Chess):
 	def print_location(self):
 		print(self.team + " Queen Location in (" + str(self.x) + "," + str(self.y) + ")")
 
-	def count_piece_atacked(self, board):
+	def count_piece_attacked(self, board):
 		attack_diagonal = self.diagonal_piece_attacked(board)
 		attack_hor_ver = self.horizontal_vertical_piece_attacked(board)
 		attack_black = attack_diagonal['BLACK'] + attack_hor_ver['BLACK']
 		attack_white = attack_diagonal['WHITE'] + attack_hor_ver['WHITE']
 		attack = {
 			'BLACK' : attack_black,
-			'WHITE' : attack_white
-		}
+			'WHITE' : attack_white}
 		return attack
 
 class Knight(Chess):
@@ -138,7 +137,7 @@ class Knight(Chess):
 	def print_location(self):
 		print(self.team + " Knight Location in (" + str(self.x) + "," + str(self.y) + ")")
 
-	def count_piece_atacked(self, board):
+	def count_piece_attacked(self, board):
 		return self.l_piece_attacked(board)
 
 class Bishop(Chess):
@@ -152,7 +151,7 @@ class Bishop(Chess):
 	def print_location(self):
 		print(self.team + " Bishop Location in (" + str(self.x) + "," + str(self.y) + ")")
 
-	def count_piece_atacked(self, board):
+	def count_piece_attacked(self, board):
 		return self.diagonal_piece_attacked(board)
 
 class Rook(Chess):
@@ -166,7 +165,7 @@ class Rook(Chess):
 	def print_location(self):
 		print(self.team + " Rook Location in (" + str(self.x) + "," + str(self.y) + ")")
 
-	def count_piece_atacked(self, board):
+	def count_piece_attacked(self, board):
 		return self.horizontal_vertical_piece_attacked(board) 
 
 
