@@ -1,6 +1,7 @@
 from os.path import exists
 from chess import *
 from board import Board
+from SimulatedAnnealing import *
 import time
 
 def readFile(filename) :
@@ -90,15 +91,16 @@ def menu(chess):
 	print()
 	print()
 	print('Initiate Board :')
-	chess.print_board()
-	chess.print_info()
 
 	if pil == 1:
 		# Hill Climbing
 		print(pil)
 	elif pil == 2:
 		# Simulated Annealing
-		print(pil)
+		max_iterate = 1000
+		temperature = 10000
+		descent = 35
+		simulate(chess, max_iterate, temperature, descent)
 	else:
 		# Genetic Algorithm
 		print(pil)
