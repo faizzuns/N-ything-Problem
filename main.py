@@ -101,8 +101,8 @@ def menu(chess):
 		# Simulated Annealing
 		print(pil)
 		max_iterate = 1000
-		temperature = 10000
-		descent = 15
+		temperature = 100
+		descent = 10
 		simulate(chess, max_iterate, temperature, descent)
 	else:
 		# Genetic Algorithm

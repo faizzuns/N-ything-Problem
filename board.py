@@ -64,6 +64,15 @@ class Board:
 			opponent = opponent + atk[piece.get_opponent()]
 		return {'teamates': teamates, 'opponent': opponent}
 
+	def get_attacked_difference(self, piece):
+		teamates = 0
+		opponent = 0
+		atk = piece.count_piece_atacked(self)
+		teamates = teamates + atk[piece.team]
+		opponent = opponent + atk[piece.get_opponent()]
+		selisih = opponent - teamates
+		return selisih
+
 
 
 
