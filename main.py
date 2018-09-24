@@ -91,18 +91,15 @@ def menu(chess):
 	print()
 	print()
 	print('Initiate Board :')
-	chess.print_board()
-	chess.print_info()
 
 	if pil == 1:
 		# Hill Climbing
 		print(pil)
 	elif pil == 2:
 		# Simulated Annealing
-		print(pil)
 		max_iterate = 1000
-		temperature = 100
-		descent = 10
+		temperature = 10000
+		descent = 35
 		simulate(chess, max_iterate, temperature, descent)
 	else:
 		# Genetic Algorithm

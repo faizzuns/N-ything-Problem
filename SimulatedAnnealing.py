@@ -15,20 +15,25 @@ def find_worst_piece(chess):
 	return x
 
 def simulate(chess, max_iterate, temperature, descent):
+	same = 0
 	chess.print_board()
-	print('summary_attacked :', chess.summary_attacked())
-	print('summary_board_attacked :', )
+	summary_attacked = chess.summary_attacked()
+	print('summary_attacked :', summary_attacked)
+	print()
 
 	for x in range(max_iterate):
 		worst_piece = find_worst_piece(chess)
 		worst_piece_x = worst_piece.x
 		worst_piece_y = worst_piece.y
 		worst_piece_diff = chess.get_attacked_difference(worst_piece)
+		sum_diff = summary_attacked['opponent'] - summary_attacked['teamates']
 		location = chess.get_random_location()
 		worst_piece.x = location['x']
 		worst_piece.y = location['y']
+		new_sum_atk = chess.summary_attacked()
+		new_sum_diff = new_sum_atk['opponent'] - new_sum_atk['teamates']
 
-		if (chess.get_attacked_difference(worst_piece) <= worst_piece_diff) and temperature != 0:
+		if (chess.get_attacked_difference(worst_piece) < worst_piece_diff or new_sum_diff < sum_diff) and temperature != 0:
 			delta_E = chess.get_attacked_difference(worst_piece) - worst_piece_diff
 			probability = math.exp(delta_E/temperature)
 			random_number = random.random()
@@ -39,6 +44,7 @@ def simulate(chess, max_iterate, temperature, descent):
 
 		temperature = temperature - descent
 
+	print('Result :')
 	chess.print_board()
 	print('summary_attacked :', chess.summary_attacked())
 
