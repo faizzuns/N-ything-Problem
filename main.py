@@ -93,10 +93,12 @@ def menu(chess):
 	print('Initiate Board :')
 
 	if pil == 1:
-		# Hill Climbing
-		print(pil)
+		chess.print_board()
+		print(chess.summary_attacked())
+		hill_climbing(chess.total_evaluation(), 100, chess)
+		chess.print_board()
+		print(chess.summary_attacked())
 	elif pil == 2:
-		# Simulated Annealing
 		max_iterate = 1000
 		temperature = 10000
 		descent = 35
@@ -104,5 +106,26 @@ def menu(chess):
 	else:
 		# Genetic Algorithm
 		print(pil)
+
+def hill_climbing(evals, max_iterate, board):
+	current_eval = evals
+	for i in range(max_iterate):
+		listofval = []
+		for piece in board.list:
+			result = piece.get_max_trial_value(board)
+			listofval.append([result['max_x'],result['max_y'],result['max_eval'],piece])
+		optimum = board.get_optimum_movement(listofval)
+		
+		piece = optimum['piece']
+		max_x = optimum['max_x']
+		max_y = optimum['max_y']
+		saved_x = piece.x
+		saved_y	= piece.y
+		piece.move_piece(max_x,max_y)
+		if current_eval < board.total_evaluation():
+			current_eval = board.total_evaluation()
+		else:
+			piece.move_piece(saved_x,saved_y)
+			break
 
 main()

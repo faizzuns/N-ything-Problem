@@ -18,14 +18,14 @@ class Board:
 
 	def print_info(self):
 		for piece in self.list:
-			attack = piece.count_piece_atacked(self)
+			attack = piece.count_piece_attacked(self)
 			if piece.team == 'WHITE':
 				team = 'WHITE'
 				enemies = 'BLACK'
 			else:
 				team = 'BLACK'
 				enemies = 'WHITE'
-			print(piece.serialize + " " + piece.team + " can attack " + str(attack[enemies]) + " enemies. and " + str(attack[team]) + " teamates")
+			print(piece.serialize + " " + piece.team + " can attack " + str(attack[enemies]) + " enemies. and " + str(attack[team]) + " teammates")
 
 	def init_map(self):
 		map = []
@@ -56,22 +56,41 @@ class Board:
 		return False
 
 	def summary_attacked(self):
-		teamates = 0
+		teammates = 0
 		opponent = 0
 		for piece in self.list:
-			atk = piece.count_piece_atacked(self)
-			teamates = teamates + atk[piece.team]
+			atk = piece.count_piece_attacked(self)
+			teammates = teammates + atk[piece.team]
 			opponent = opponent + atk[piece.get_opponent()]
-		return {'teamates': teamates, 'opponent': opponent}
+		return {'teammates': teammates, 'opponents': opponent}
 
 	def get_attacked_difference(self, piece):
-		teamates = 0
+		teammates = 0
 		opponent = 0
-		atk = piece.count_piece_atacked(self)
-		teamates = teamates + atk[piece.team]
+		atk = piece.count_piece_attacked(self)
+		teammates = teammates + atk[piece.team]
 		opponent = opponent + atk[piece.get_opponent()]
-		selisih = opponent - teamates
+		selisih = opponent - teammates
 		return selisih
+
+	def total_evaluation(self):
+		total_atk = self.summary_attacked()
+		opponent = total_atk['opponents']
+		teammates = total_atk['teammates']
+		return opponent - teammates
+
+	def get_optimum_movement(self,list_of_list):
+		max_eval = -999
+		for member in list_of_list:
+			if member[2] > max_eval:
+				max_eval = member[2]
+				m_x = member[0]
+				m_y = member[1]
+				piece = member[3]
+		return {'max_x':m_x, 
+				'max_y':m_y,
+				'max_eval':max_eval,
+				'piece':piece}
 
 
 
