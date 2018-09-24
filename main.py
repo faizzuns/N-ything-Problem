@@ -1,5 +1,6 @@
 from chess import *
 from board import Board
+from GeneticAlgorithm import *
 
 def main():
 	c1 = Board()
@@ -33,5 +34,7 @@ def main():
 	c1.print_piece()
 	c1.print_info()
 
+	c = generate_initial_population(4)
+	print(c)
 
 main()
