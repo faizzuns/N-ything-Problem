@@ -79,6 +79,32 @@ class Chess:
 		else:
 			return 'WHITE'
 
+	def move_piece(self,x,y):
+		self.x = x
+		self.y = y
+
+
+	def get_max_trial_value(self,board):
+		max_x =0
+		max_y =0
+		max_eval = board.total_evaluation()
+		saved_x = self.x
+		saved_y = self.y
+		for x in range (1,9):
+			for y in range (1,9):
+	 			if not board.is_taken(x,y):
+	 				self.move_piece(x,y)
+	 				if board.total_evaluation()> max_eval:
+	 					max_x = x
+	 					max_y = y
+	 					max_eval = board.total_evaluation()
+		self.move_piece(saved_x,saved_y)
+		if max_x == 0 and max_y == 0:
+			max_x = saved_x
+			max_y = saved_y
+		return {'max_x': max_x, 'max_y': max_y, 'max_eval': max_eval}
+
+
 class Queen(Chess):
 	def __init__(self, x, y, team):
 		super().__init__(x, y, team)

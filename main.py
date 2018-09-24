@@ -94,7 +94,9 @@ def menu(chess):
 	chess.print_info()
 
 	if pil == 1:
-		# Hill Climbing
+		hill_climbing(chess.total_evaluation(),100,chess)
+		chess.print_board()
+		chess.print_info()
 		print(pil)
 	elif pil == 2:
 		# Simulated Annealing
@@ -103,11 +105,43 @@ def menu(chess):
 		# Genetic Algorithm
 		print(pil)
 
-def hill_climbing(maxIterate,board):
+def hill_climbing(evals,maxIterate,board):
+	
+	current_eval = evals
 	for i in range(maxIterate):
-		for piece in board:
-			s
+		print("iteration :", i)
+		listofval = []
+		for piece in board.list:
+			result = piece.get_max_trial_value(board)
+			listofval.append([result['max_x'],result['max_y'],result['max_eval'],piece])
+		optimum = board.get_optimum_movement(listofval)
+		print("current eval :", current_eval)
+		
+		piece = optimum['piece']
+		max_x = optimum['max_x']
+		max_y = optimum['max_y']
+		saved_x = piece.x
+		saved_y	= piece.y
+		piece.move_piece(max_x,max_y)
+		print("board evaluation: ", board.total_evaluation())
+		print ("total :")
+		print ("teammates: ", board.total_attack()['teammates'])
+		print("opponents: ",board.total_attack()['opponents'])
+		if current_eval < board.total_evaluation():
+			print("masuk ke evaluasi")
+			current_eval = board.total_evaluation()
+			
+			print("iteration :", i)
+		else:
+			print("ke break")
+			piece.move_piece(saved_x,saved_y)
+			break
 
-	print("Finish calculating hill climbing")
+	total = board.total_attack()
+	#print("Finish calculating hill climbing")
+	#print ("hasil :")
+	#print("teammates attacked :", total['teammates'])
+	#print("opponents attacked :", total['opponents'])
+
 
 main()
