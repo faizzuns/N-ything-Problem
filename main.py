@@ -1,6 +1,7 @@
 from os.path import exists
 from chess import *
 from board import Board
+<<<<<<< HEAD
 import time
 
 def readFile(filename) :
