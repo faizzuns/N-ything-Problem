@@ -1,7 +1,7 @@
 from os.path import exists
 from chess import *
 from board import Board
-<<<<<<< HEAD
+import random
 import time
 
 def readFile(filename) :
@@ -89,15 +89,107 @@ def generatePopulation(population_number) :
 
 	return populations
 
-def geneticAlgorithm(populations) :
-	fitness_list = []
-	for population in populations :
-		fitness_count = fitnessFunction(population)
-		fitness_list.append([population,fitness_count])
+def crossoverFunction(sorted_list):
+	# Membuat board population untuk generasi selanjutnya
+	new_population_board = []
+	new_population_board.append(sorted_list[0])
+	new_population_board.append(sorted_list[1])
+	new_population_board.append(sorted_list[1])
+	new_population_board.append(sorted_list[2])
 
-	sort_list = []
-	sort_list = sorted(fitness_list, key=lambda fitness : fitness[1], reverse=True)
+	jumlah_bidak = len(sorted_list[0].list)
 
+	# Crossing pasangan pertama
+	for i in range(jumlah_bidak):
+		if bool(random.randint(0,1)):
+			# tuker
+			# cek apakah bentrok atau enggak
+			x_bidak_board_0 = new_population_board[0].list[i].x
+			y_bidak_board_0 = new_population_board[0].list[i].y
+			x_bidak_board_1 = new_population_board[1].list[i].x
+			y_bidak_board_1 = new_population_board[1].list[i].y
+			if (new_population_board[0].is_taken(x_bidak_board_1, y_bidak_board_1) or new_population_board[1].is_taken(x_bidak_board_0, y_bidak_board_0)):
+				rand_point_0 = new_population_board[0].get_random_location()
+				rand_point_1 = new_population_board[1].get_random_location()
+				if new_population_board[0].is_taken(x_bidak_board_1, y_bidak_board_1) and new_population_board[1].is_taken(x_bidak_board_0, y_bidak_board_0):
+					new_population_board[0].list[i].x = rand_point_0['x']
+					new_population_board[0].list[i].y = rand_point_0['y']
+					new_population_board[1].list[i].x = rand_point_1['x']
+					new_population_board[1].list[i].y = rand_point_1['y']
+				elif new_population_board[0].is_taken(x_bidak_board_1, y_bidak_board_1):
+					new_population_board[0].list[i].x = rand_point_0['x']
+					new_population_board[0].list[i].y = rand_point_0['y']
+					new_population_board[1].list[i].x = x_bidak_board_0
+					new_population_board[1].list[i].y = y_bidak_board_0
+				else:
+					new_population_board[0].list[i].x = x_bidak_board_1
+					new_population_board[0].list[i].y = y_bidak_board_1
+					new_population_board[1].list[i].x = rand_point_1['x']
+					new_population_board[1].list[i].y = rand_point_1['y']
+			else:
+				new_population_board[0].list[i].x = x_bidak_board_1
+				new_population_board[0].list[i].y = y_bidak_board_1
+				new_population_board[1].list[i].x = x_bidak_board_0
+				new_population_board[1].list[i].y = y_bidak_board_0
+
+	# Crossing pasangan kedua
+	for i in range(jumlah_bidak):
+		if bool(random.randint(0,1)):
+			# tuker
+			# cek apakah bentrok atau enggak
+			x_bidak_board_2 = new_population_board[2].list[i].x
+			y_bidak_board_2 = new_population_board[2].list[i].y
+			x_bidak_board_3 = new_population_board[3].list[i].x
+			y_bidak_board_3 = new_population_board[3].list[i].y
+			if (new_population_board[2].is_taken(x_bidak_board_3, y_bidak_board_3) or new_population_board[3].is_taken(x_bidak_board_2, y_bidak_board_2)):
+				rand_point_2 = new_population_board[2].get_random_location()
+				rand_point_3 = new_population_board[3].get_random_location()
+				if new_population_board[2].is_taken(x_bidak_board_3, y_bidak_board_3) and new_population_board[3].is_taken(x_bidak_board_2, y_bidak_board_2):
+					new_population_board[2].list[i].x = rand_point_2['x']
+					new_population_board[2].list[i].y = rand_point_2['y']
+					new_population_board[3].list[i].x = rand_point_3['x']
+					new_population_board[3].list[i].y = rand_point_3['y']
+				elif new_population_board[2].is_taken(x_bidak_board_3, y_bidak_board_3):
+					new_population_board[2].list[i].x = rand_point_2['x']
+					new_population_board[2].list[i].y = rand_point_2['y']
+					new_population_board[3].list[i].x = x_bidak_board_2
+					new_population_board[3].list[i].y = y_bidak_board_2
+				else:
+					new_population_board[2].list[i].x = x_bidak_board_3
+					new_population_board[2].list[i].y = y_bidak_board_3
+					new_population_board[3].list[i].x = rand_point_3['x']
+					new_population_board[3].list[i].y = rand_point_3['y']
+			else:
+				new_population_board[2].list[i].x = x_bidak_board_3
+				new_population_board[2].list[i].y = y_bidak_board_3
+				new_population_board[3].list[i].x = x_bidak_board_2
+				new_population_board[3].list[i].y = y_bidak_board_2
+	
+	return new_population_board
+
+def geneticAlgorithm(populations, n):
+	for i in range(n+1):
+	
+		fitness_list = []
+
+		for population in populations :
+			fitness_count = fitnessFunction(population)
+			fitness_list.append([population,fitness_count])
+
+		sort_list = []
+		sort_list = sorted(fitness_list, key=lambda fitness : fitness[1], reverse=True)
+
+		sorted_populations = []
+		for li in sort_list:
+			sorted_populations.append(li[0])
+
+		if (i != n):
+			new_population_list = []
+			new_population_list = crossoverFunction(sorted_populations)
+			populations = new_population_list
+
+	return sorted_populations[0]
+	
 
 def main():
 	chess = intiateBoard()
@@ -140,7 +232,7 @@ def menu(chess):
 		# Genetic Algorithm
 		populations = []
 		populations = generatePopulation(4)
-		geneticAlgorithm(populations)
-		print(pil)
+		genetic_algorithm = geneticAlgorithm(populations, 10)
+		genetic_algorithm.print_board()
 
 main()
