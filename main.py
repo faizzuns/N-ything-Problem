@@ -181,9 +181,11 @@ def geneticAlgorithm(populations, n):
 
 		sorted_populations = []
 		for li in sort_list:
+			print("----")
+			li[0].print_board()
 			sorted_populations.append(li[0])
-
-		if (i != n):
+		print("++++++++++")
+		if not (i == n):
 			new_population_list = []
 			new_population_list = crossoverFunction(sorted_populations)
 			populations = new_population_list
