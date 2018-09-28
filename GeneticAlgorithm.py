@@ -43,3 +43,18 @@ def generate_initial_population(k):
         chess_list.append(chess)
     print(chess_list)
     return chess_list
+
+# chess_list isinya masih 4 list, terurut dengan chess_list pertama itu yang terbaik
+def crossover_function(chess_list):
+    new_chess_list = []
+    new_chess_list.append(chess_list[0])
+    new_chess_list.append(chess_list[1])
+    new_chess_list.append(chess_list[1])
+    new_chess_list.append(chess_list[2])
+
+    # Algoritma untuk crossing
+    for i in range(0,8):
+        is_switch = bool(random.getrandbits(1))
+        if is_switch:
+            if not new_chess_list[1].is_taken(new_chess_list[0].list[i].x, new_chess_list[0].list[i].y) and not new_chess_list[0].is_taken(new_chess_list[1].list[i].x, new_chess_list[1].list[i].y):
+                #switch
