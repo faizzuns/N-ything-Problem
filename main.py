@@ -1,7 +1,6 @@
 from os.path import exists
 from chess import *
 from board import Board
-<<<<<<< HEAD
 import time
 
 def readFile(filename) :
@@ -72,9 +71,7 @@ def fitnessFunction(board) :
 		count_team += attack[piece.team]
 		count_opponent += attack[piece.get_opponent()]
 
-	print (count_team)
-	print (count_opponent)
-	fitness_count = abs(count_team - count_opponent)
+	fitness_count = count_team - count_opponent
 	return (fitness_count)
 
 def generatePopulation(population_number) :
@@ -97,6 +94,8 @@ def geneticAlgorithm(populations) :
 
 	sort_list = []
 	sort_list = sorted(fitness_list, key=lambda fitness : fitness[1], reverse=True)
+
+	print (sort_list)
 
 
 def main():
