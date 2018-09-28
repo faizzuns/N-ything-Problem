@@ -61,7 +61,43 @@ def intiateBoard() :
 					chess_board.add_piece(black_rook)
 
 	return chess_board
-	
+
+def fitnessFunction(board) :
+	count_team = 0
+	count_opponent = 0
+	fitness_count = 0
+	for piece in board.list :
+		attack = piece.count_piece_atacked(board)
+		count_team += attack[piece.team]
+		count_opponent += attack[piece.get_opponent()]
+
+	print (count_team)
+	print (count_opponent)
+	fitness_count = abs(count_team - count_opponent)
+	return (fitness_count)
+
+def generatePopulation(population_number) :
+	populations = []
+	for i in range(population_number) :
+		chess = intiateBoard()
+		populations.append(chess)
+
+	for x in populations :
+		x.print_board()
+		x.print_info()
+
+	return populations
+
+def geneticAlgorithm(populations) :
+	fitness_list = []
+	for population in populations :
+		fitness_count = fitnessFunction(population)
+		fitness_list.append([population,fitness_count])
+
+	sort_list = []
+	sort_list = sorted(fitness_list, key=lambda fitness : fitness[1], reverse=True)
+
+
 def main():
 	chess = intiateBoard()
 	menu(chess)
@@ -101,6 +137,9 @@ def menu(chess):
 		print(pil)
 	else:
 		# Genetic Algorithm
+		populations = []
+		populations = generatePopulation(4)
+		geneticAlgorithm(populations)
 		print(pil)
 
 main()
