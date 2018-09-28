@@ -2,6 +2,7 @@ from os.path import exists
 from chess import *
 from board import Board
 import random
+from SimulatedAnnealing import *
 import time
 
 def readFile(filename) :
@@ -220,15 +221,18 @@ def menu(chess):
 	print()
 	print()
 	print('Initiate Board :')
-	chess.print_board()
-	chess.print_info()
 
 	if pil == 1:
-		# Hill Climbing
-		print(pil)
+		chess.print_board()
+		print(chess.summary_attacked())
+		hill_climbing(chess.total_evaluation(), 100, chess)
+		chess.print_board()
+		print(chess.summary_attacked())
 	elif pil == 2:
-		# Simulated Annealing
-		print(pil)
+		max_iterate = 1000
+		temperature = 10000
+		descent = 35
+		simulate(chess, max_iterate, temperature, descent)
 	else:
 		# Genetic Algorithm
 		populations = []
@@ -243,5 +247,26 @@ def menu(chess):
 		print (result[1])
 		result[0].print_board()
 		result[0].print_info()
+
+def hill_climbing(evals, max_iterate, board):
+	current_eval = evals
+	for i in range(max_iterate):
+		listofval = []
+		for piece in board.list:
+			result = piece.get_max_trial_value(board)
+			listofval.append([result['max_x'],result['max_y'],result['max_eval'],piece])
+		optimum = board.get_optimum_movement(listofval)
+		
+		piece = optimum['piece']
+		max_x = optimum['max_x']
+		max_y = optimum['max_y']
+		saved_x = piece.x
+		saved_y	= piece.y
+		piece.move_piece(max_x,max_y)
+		if current_eval < board.total_evaluation():
+			current_eval = board.total_evaluation()
+		else:
+			piece.move_piece(saved_x,saved_y)
+			break
 
 main()
