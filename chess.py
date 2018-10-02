@@ -102,7 +102,7 @@ class Chess:
 			max_x = saved_x
 			max_y = saved_y
 		return {'max_x': max_x,
-				'max_y': max_y, 
+				'max_y': max_y,
 				'max_eval': max_eval}
 
 class Queen(Chess):
@@ -166,6 +166,4 @@ class Rook(Chess):
 		print(self.team + " Rook Location in (" + str(self.x) + "," + str(self.y) + ")")
 
 	def count_piece_attacked(self, board):
-		return self.horizontal_vertical_piece_attacked(board) 
-
-
+		return self.horizontal_vertical_piece_attacked(board)

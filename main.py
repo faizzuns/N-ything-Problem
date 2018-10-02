@@ -58,7 +58,7 @@ def intiateBoard() :
 				if (x[0] == 'WHITE') :
 					white_rook = Rook(point['x'],point['y'],'WHITE')
 					chess_board.add_piece(white_rook)
-				else : 
+				else :
 					black_rook = Rook(point['x'],point['y'],'BLACK')
 					chess_board.add_piece(black_rook)
 
@@ -69,7 +69,7 @@ def fitnessFunction(board) :
 	count_opponent = 0
 	fitness_count = 0
 	for piece in board.list :
-		attack = piece.count_piece_atacked(board)
+		attack = piece.count_piece_attacked(board)
 		count_team += attack[piece.team]
 		count_opponent += attack[piece.get_opponent()]
 
@@ -82,24 +82,24 @@ def generatePopulation(population_number) :
 		chess = intiateBoard()
 		populations.append(chess)
 
-	for x in populations :
-		x.print_board()
-		x.print_info()
-
 	return populations
 
 def SortAlgorithm(populations) :
 	fitness_list = []
+	iterate = 1
+	print ("Population in Genetic Algorithm : ")
 	for population in populations :
+		print ("Board", iterate)
 		fitness_count = fitnessFunction(population)
-		population.print_board()
-		print (fitness_count)
 		fitness_list.append([population,fitness_count])
+		population.print_board()
+		print ("Nilai fitness function : ", fitness_count)
+		iterate += 1
 
 	sort_list = []
 	sort_list = sorted(fitness_list, key=lambda fitness : fitness[1], reverse=True)
 
-	return (sort_list) 
+	return (sort_list)
 
 def crossoverFunction(sorted_list):
 	# Membuat board population untuk generasi selanjutnya
@@ -176,13 +176,13 @@ def crossoverFunction(sorted_list):
 				new_population_board[2].list[i].y = y_bidak_board_3
 				new_population_board[3].list[i].x = x_bidak_board_2
 				new_population_board[3].list[i].y = y_bidak_board_2
-	
+
 	return new_population_board
 
 def geneticAlgorithm(populations, n):
 	result_populations = []
 	for i in range(n+1):
-	
+
 		sort_list = []
 		sort_list = SortAlgorithm(populations)
 
@@ -256,7 +256,7 @@ def hill_climbing(evals, max_iterate, board):
 			result = piece.get_max_trial_value(board)
 			listofval.append([result['max_x'],result['max_y'],result['max_eval'],piece])
 		optimum = board.get_optimum_movement(listofval)
-		
+
 		piece = optimum['piece']
 		max_x = optimum['max_x']
 		max_y = optimum['max_y']
