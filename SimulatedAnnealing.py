@@ -26,12 +26,12 @@ def simulate(chess, max_iterate, temperature, descent):
 		worst_piece_x = worst_piece.x
 		worst_piece_y = worst_piece.y
 		worst_piece_diff = chess.get_attacked_difference(worst_piece)
-		sum_diff = summary_attacked['opponent'] - summary_attacked['teamates']
+		sum_diff = summary_attacked['opponents'] - summary_attacked['teamates']
 		location = chess.get_random_location()
 		worst_piece.x = location['x']
 		worst_piece.y = location['y']
 		new_sum_atk = chess.summary_attacked()
-		new_sum_diff = new_sum_atk['opponent'] - new_sum_atk['teamates']
+		new_sum_diff = new_sum_atk['opponents'] - new_sum_atk['teamates']
 
 		if (chess.get_attacked_difference(worst_piece) < worst_piece_diff or new_sum_diff < sum_diff) and temperature != 0:
 			delta_E = chess.get_attacked_difference(worst_piece) - worst_piece_diff
