@@ -4,6 +4,7 @@ from board import Board
 import random
 from SimulatedAnnealing import *
 import time
+import copy
 
 def readFile(filename) :
 	if exists(filename) :
@@ -106,7 +107,7 @@ def crossoverFunction(sorted_list):
 	new_population_board = []
 	new_population_board.append(sorted_list[0][0])
 	new_population_board.append(sorted_list[1][0])
-	new_population_board.append(sorted_list[1][0])
+	new_population_board.append(copy.deepcopy(sorted_list[1][0]))
 	new_population_board.append(sorted_list[2][0])
 
 	jumlah_bidak = len(sorted_list[0][0].list)
@@ -179,19 +180,17 @@ def crossoverFunction(sorted_list):
 
 	return new_population_board
 
-def geneticAlgorithm(populations, n):
+def geneticAlgorithm(populations, i, n):
 	result_populations = []
-	for i in range(n+1):
 
+	if (i != n) :
 		sort_list = []
 		sort_list = SortAlgorithm(populations)
-
-		if (i != n):
-			new_population_list = []
-			new_population_list = crossoverFunction(sort_list)
-			result_populations = new_population_list
-
-	return (result_populations)
+		new_population_list = []
+		new_population_list = crossoverFunction(sort_list)
+		return (geneticAlgorithm(new_population_list,i+1,n))
+	else :
+		return (populations)
 
 def main():
 	chess = intiateBoard()
@@ -239,7 +238,8 @@ def menu(chess):
 		results = []
 		results_genetic = []
 		populations = generatePopulation(4)
-		results = geneticAlgorithm(populations,10)
+		results = geneticAlgorithm(populations,0,10)
+		print (results)
 		results_genetic = SortAlgorithm(results)
 		result = results_genetic[0]
 		print ("Hasil dari Genetic Algorithm ialah : ")
