@@ -4,6 +4,7 @@ from board import Board
 import random
 from SimulatedAnnealing import *
 import time
+import copy
 
 def readFile(filename) :
 	if exists(filename) :
@@ -106,7 +107,7 @@ def crossoverFunction(sorted_list):
 	new_population_board = []
 	new_population_board.append(sorted_list[0][0])
 	new_population_board.append(sorted_list[1][0])
-	new_population_board.append(sorted_list[1][0])
+	new_population_board.append(copy.deepcopy(sorted_list[1][0]))
 	new_population_board.append(sorted_list[2][0])
 
 	jumlah_bidak = len(sorted_list[0][0].list)
