@@ -269,4 +269,25 @@ def hill_climbing(evals, max_iterate, board):
 			piece.move_piece(saved_x,saved_y)
 			break
 
+def hill_climbing(evals, max_iterate, board):
+	current_eval = evals
+	for i in range(max_iterate):
+		listofval = []
+		for piece in board.list:
+			result = piece.get_max_trial_value(board)
+			listofval.append([result['max_x'],result['max_y'],result['max_eval'],piece])
+		optimum = board.get_optimum_movement(listofval)
+		
+		piece = optimum['piece']
+		max_x = optimum['max_x']
+		max_y = optimum['max_y']
+		saved_x = piece.x
+		saved_y	= piece.y
+		piece.move_piece(max_x,max_y)
+		if current_eval < board.total_evaluation():
+			current_eval = board.total_evaluation()
+		else:
+			piece.move_piece(saved_x,saved_y)
+			break
+
 main()
