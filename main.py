@@ -88,13 +88,9 @@ def generatePopulation(population_number) :
 def SortAlgorithm(populations) :
 	fitness_list = []
 	iterate = 1
-	print ("Population in Genetic Algorithm : ")
 	for population in populations :
-		print ("Board", iterate)
 		fitness_count = fitnessFunction(population)
 		fitness_list.append([population,fitness_count])
-		population.print_board()
-		print ("Nilai fitness function : ", fitness_count)
 		iterate += 1
 
 	sort_list = []
@@ -239,14 +235,10 @@ def menu(chess):
 		results_genetic = []
 		populations = generatePopulation(4)
 		results = geneticAlgorithm(populations,0,10)
-		print (results)
 		results_genetic = SortAlgorithm(results)
 		result = results_genetic[0]
-		print ("Hasil dari Genetic Algorithm ialah : ")
-		print ("Nilai Fitness Function : ")
-		print (result[1])
 		result[0].print_board()
-		result[0].print_info()
+		print(result[0].summary_attacked())
 
 def hill_climbing(evals, max_iterate, board):
 	current_eval = evals
